@@ -1,16 +1,4 @@
-</script>
-</body>
-</html>        /* 스크롤 애니메이션 */
-        .fade-in {
-            opacity: 0;
-            transform: translateY(30px);
-            transition: all 0.6s ease-out;
-        }
-
-        .fade-in.active {
-            opacity: 1;
-            transform: translateY(0);
-        }<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="ko">
 <head>
     <meta charset="UTF-8">
@@ -157,6 +145,181 @@
             }
             100% {
                 transform: rotate(660deg) translateX(170px) translateZ(-15px) rotateY(-660deg);
+            }
+        }
+
+        /* 레고 캐릭터 컨테이너 */
+        .lego-container {
+            position: absolute;
+            bottom: 15px;
+            left: 0;
+            right: 0;
+            height: 90px;
+            z-index: 10;
+            pointer-events: none;
+            overflow: hidden;
+        }
+
+        /* 레고 캐릭터 기본 스타일 */
+        .lego-character {
+            position: absolute;
+            bottom: 0;
+            width: 30px;
+            height: 45px;
+        }
+
+        /* 레고 남자 */
+        .lego-man {
+            background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 45'%3E%3C!-- 머리 --%3E%3Crect x='5' y='2' width='20' height='15' rx='2' fill='%23FFCC00'/%3E%3C!-- 얼굴 --%3E%3Ccircle cx='12' cy='9' r='1.5' fill='%23000'/%3E%3Ccircle cx='18' cy='9' r='1.5' fill='%23000'/%3E%3Cpath d='M12 14 Q15 16, 18 14' stroke='%23000' fill='none' stroke-width='1'/%3E%3C!-- 몸통 --%3E%3Crect x='8' y='17' width='14' height='18' fill='%230000CC'/%3E%3C!-- 다리 --%3E%3Crect x='8' y='35' width='6' height='10' fill='%23000044'/%3E%3Crect x='16' y='35' width='6' height='10' fill='%23000044'/%3E%3C!-- 팔 --%3E%3Crect x='4' y='17' width='4' height='15' fill='%230000CC'/%3E%3Crect x='22' y='17' width='4' height='15' fill='%230000CC'/%3E%3C!-- 손 --%3E%3Crect x='4' y='32' width='4' height='4' rx='2' fill='%23FFCC00'/%3E%3Crect x='22' y='32' width='4' height='4' rx='2' fill='%23FFCC00'/%3E%3C/svg%3E") no-repeat center;
+            animation: legoManWalk 0.6s infinite alternate;
+            left: 40%;
+        }
+
+        /* 레고 여자 */
+        .lego-woman {
+            background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 45'%3E%3C!-- 머리 --%3E%3Crect x='5' y='2' width='20' height='15' rx='2' fill='%23FFCC00'/%3E%3C!-- 얼굴 --%3E%3Ccircle cx='12' cy='9' r='1.5' fill='%23000'/%3E%3Ccircle cx='18' cy='9' r='1.5' fill='%23000'/%3E%3Cpath d='M12 14 Q15 16, 18 14' stroke='%23000' fill='none' stroke-width='1'/%3E%3C!-- 머리카락 --%3E%3Cpath d='M5 8 Q0 15, 5 17 L5 8 Z' fill='%23AA4400'/%3E%3Cpath d='M25 8 Q30 15, 25 17 L25 8 Z' fill='%23AA4400'/%3E%3C!-- 몸통 --%3E%3Crect x='8' y='17' width='14' height='18' fill='%23FF3399'/%3E%3C!-- 다리 --%3E%3Crect x='8' y='35' width='6' height='10' fill='%23FF0066'/%3E%3Crect x='16' y='35' width='6' height='10' fill='%23FF0066'/%3E%3C!-- 팔 --%3E%3Crect x='4' y='17' width='4' height='15' fill='%23FF3399'/%3E%3Crect x='22' y='17' width='4' height='15' fill='%23FF3399'/%3E%3C!-- 손 --%3E%3Crect x='4' y='32' width='4' height='4' rx='2' fill='%23FFCC00'/%3E%3Crect x='22' y='32' width='4' height='4' rx='2' fill='%23FFCC00'/%3E%3C/svg%3E") no-repeat center;
+            animation: legoWomanWalk 0.6s infinite alternate;
+            left: 52%;
+        }
+
+        /* 레고 강아지 */
+        .lego-dog {
+            width: 20px;
+            height: 15px;
+            bottom: 5px;
+            background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 15'%3E%3C!-- 몸통 --%3E%3Crect x='2' y='5' width='16' height='8' rx='4' fill='%23A0522D'/%3E%3C!-- 머리 --%3E%3Crect x='14' y='2' width='6' height='7' rx='3' fill='%23A0522D'/%3E%3C!-- 눈 --%3E%3Ccircle cx='17' cy='5' r='1' fill='%23000'/%3E%3C!-- 코 --%3E%3Ccircle cx='19' cy='6' r='1' fill='%23000'/%3E%3C!-- 귀 --%3E%3Crect x='14' y='0' width='3' height='3' rx='1.5' fill='%236B3E26'/%3E%3C!-- 다리 --%3E%3Crect x='3' y='13' width='2' height='2' fill='%23A0522D'/%3E%3Crect x='7' y='13' width='2' height='2' fill='%23A0522D'/%3E%3Crect x='11' y='13' width='2' height='2' fill='%23A0522D'/%3E%3Crect x='15' y='13' width='2' height='2' fill='%23A0522D'/%3E%3C!-- 꼬리 --%3E%3Crect x='0' y='6' width='4' height='2' rx='1' fill='%23A0522D'/%3E%3C/svg%3E") no-repeat center;
+            animation: legoDogWalk 0.4s infinite alternate;
+            left: 46%;
+        }
+
+        /* 레고 리드줄 - 여자쪽만 */
+        .lego-leash {
+            position: absolute;
+            bottom: 13px;
+            left: 47%;
+            width: 5%;
+            height: 1px;
+            background-color: #8B4513;
+            z-index: 9;
+        }
+
+        /* 걷기 애니메이션 */
+        @keyframes legoManWalk {
+            0% {
+                transform: translateY(0);
+            }
+            100% {
+                transform: translateY(-3px);
+            }
+        }
+
+        @keyframes legoWomanWalk {
+            0% {
+                transform: translateY(-3px);
+            }
+            100% {
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes legoDogWalk {
+            0%, 100% {
+                transform: translateY(0) rotate(0deg);
+            }
+            50% {
+                transform: translateY(-2px) rotate(2deg);
+            }
+        }
+
+        /* 캐릭터별 이동 애니메이션 */
+        .lego-man {
+            animation-name: legoManWalk, legoManMove;
+            animation-duration: 0.6s, 30s;
+            animation-timing-function: ease-in-out, linear;
+            animation-iteration-count: infinite, infinite;
+            animation-direction: alternate, normal;
+        }
+
+        .lego-woman {
+            animation-name: legoWomanWalk, legoWomanMove;
+            animation-duration: 0.6s, 30s;
+            animation-timing-function: ease-in-out, linear;
+            animation-iteration-count: infinite, infinite;
+            animation-direction: alternate, normal;
+        }
+
+        .lego-dog {
+            animation-name: legoDogWalk, legoDogMove;
+            animation-duration: 0.4s, 30s;
+            animation-timing-function: ease-in-out, linear;
+            animation-iteration-count: infinite, infinite;
+            animation-direction: alternate, normal;
+        }
+
+        .lego-leash {
+            animation: legoLeashMove 30s linear infinite;
+        }
+
+        /* 이동 애니메이션 */
+        @keyframes legoManMove {
+            0% {
+                left: 20%;
+            }
+            45%, 50% {
+                left: 40%;
+            }
+            95%, 100% {
+                left: 20%;
+            }
+        }
+
+        @keyframes legoDogMove {
+            0% {
+                left: 26%;
+            }
+            45%, 50% {
+                left: 46%;
+            }
+            95%, 100% {
+                left: 26%;
+            }
+        }
+
+        @keyframes legoWomanMove {
+            0% {
+                left: 32%;
+            }
+            45%, 50% {
+                left: 52%;
+            }
+            95%, 100% {
+                left: 32%;
+            }
+        }
+
+        @keyframes legoLeashMove {
+            0% {
+                left: 27%;
+                width: 5%;
+            }
+            45%, 50% {
+                left: 47%;
+                width: 5%;
+            }
+            95%, 100% {
+                left: 27%;
+                width: 5%;
+            }
+        }
+
+        /* 반응형 조정 */
+        @media (max-width: 768px) {
+            .lego-character {
+                transform: scale(0.8);
+            }
+            
+            .lego-container {
+                bottom: 10px;
             }
         }
 
@@ -2595,6 +2758,18 @@
                 gap: 20px;
             }
         }
+
+        /* 스크롤 애니메이션 */
+        .fade-in {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.6s ease-out;
+        }
+
+        .fade-in.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
     </style>
 </head>
 <body>
@@ -2658,6 +2833,14 @@
                 <div class="berry berry2"></div>
                 <div class="berry berry3"></div>
                 <div class="berry berry4"></div>
+            </div>
+            
+            <!-- 산책하는 레고 부부와 강아지 -->
+            <div class="lego-container">
+                <div class="lego-character lego-man"></div>
+                <div class="lego-character lego-dog"></div>
+                <div class="lego-leash"></div>
+                <div class="lego-character lego-woman"></div>
             </div>
         </div>
         
@@ -3232,79 +3415,3 @@
                 header.style.backdropFilter = 'none';
                 header.style.boxShadow = '0 2px 5px rgba(0,0,0,0.1)';
             }
-            
-            lastScroll = currentScroll;
-        });
-
-        // 마우스 추적 효과
-        document.addEventListener('mousemove', (e) => {
-            const modernPlatform = document.querySelector('.modern-platform');
-            if (!modernPlatform) return;
-            
-            const rect = modernPlatform.getBoundingClientRect();
-            const centerX = rect.left + rect.width / 2;
-            const centerY = rect.top + rect.height / 2;
-            
-            const angleX = (e.clientY - centerY) * 0.01;
-            const angleY = (e.clientX - centerX) * 0.01;
-            
-            modernPlatform.style.transform = `
-                perspective(1000px)
-                rotateX(${-angleX}deg)
-                rotateY(${angleY}deg)
-            `;
-        });
-
-        // 디바이스 호버 효과
-        document.querySelectorAll('.modern-device').forEach((device, index) => {
-            device.addEventListener('mouseenter', function() {
-                const icon = this.querySelector('.device-icon span');
-                icon.style.transform = 'scale(1.2) rotate(10deg)';
-            });
-            
-            device.addEventListener('mouseleave', function() {
-                const icon = this.querySelector('.device-icon span');
-                icon.style.transform = 'scale(1) rotate(0deg)';
-            });
-        });
-
-        // 파티클 생성
-        function createParticles() {
-            const particleContainer = document.querySelector('.particles');
-            if (!particleContainer) return;
-            
-            const particleCount = particleContainer.children.length;
-            for (let i = 0; i < particleCount; i++) {
-                const particle = particleContainer.children[i];
-                particle.style.left = `${Math.random() * 100}%`;
-                particle.style.animationDelay = `${Math.random() * 10}s`;
-                particle.style.animationDuration = `${10 + Math.random() * 10}s`;
-            }
-        }
-
-        createParticles();
-
-        // 기프티콘 클릭 이벤트
-        document.querySelectorAll('.gifticon-item').forEach(item => {
-            item.addEventListener('click', function() {
-                const productName = this.querySelector('h4').textContent;
-                alert(`${productName} 기프티콘이 선택되었습니다!`);
-            });
-        });
-        // 미니골드 카드에 애니메이션 지연 효과 적용
-        document.querySelectorAll('.minigold-card').forEach((card, index) => {
-            card.style.setProperty('--card-index', index);
-        });
-        
-        // 미니골드 카드 호버 효과
-        document.querySelectorAll('.minigold-card').forEach(card => {
-            card.addEventListener('mouseenter', function() {
-                this.querySelector('.minigold-amount').style.filter = 'drop-shadow(0 4px 6px rgba(184, 134, 11, 0.4))';
-                this.querySelector('.minigold-logo').style.textShadow = '0 0 20px rgba(255, 215, 0, 0.8)';
-            });
-            
-            card.addEventListener('mouseleave', function() {
-                this.querySelector('.minigold-amount').style.filter = 'drop-shadow(0 2px 2px rgba(0,0,0,0.1))';
-                this.querySelector('.minigold-logo').style.textShadow = '0 2px 10px rgba(184, 134, 11, 0.4)';
-            });
-        });
