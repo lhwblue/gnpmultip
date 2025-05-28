@@ -1,0 +1,2610 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GNP 멀티플렛폼</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Noto Sans KR', -apple-system, BlinkMacSystemFont, 'Segoe UI', Arial, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background-color: #fff;
+            overflow-x: hidden;
+        }
+
+        /* 헤더 스타일 */
+        header {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            background: #FFF5F0;
+            z-index: 1000;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            transition: all 0.3s ease;
+            backdrop-filter: blur(10px);
+        }
+
+        .header-inner {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .logo {
+            font-size: 24px;
+            font-weight: 700;
+            background: linear-gradient(135deg, #FF6B35 0%, #FF9558 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .logo-icon {
+            width: 40px;
+            height: 40px;
+            background: linear-gradient(135deg, #FF6B35 0%, #FF9558 100%);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 20px;
+            box-shadow: 0 4px 15px rgba(255,107,53,0.3);
+        }
+
+        nav ul {
+            list-style: none;
+            display: flex;
+            gap: 40px;
+        }
+
+        nav span {
+            text-decoration: none;
+            color: #333;
+            font-weight: 500;
+            transition: color 0.3s;
+            position: relative;
+            cursor: default;
+        }
+
+        nav span:hover {
+            background: linear-gradient(135deg, #FF6B35 0%, #FF9558 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        nav span::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: linear-gradient(90deg, #FF6B35 0%, #FF9558 100%);
+            transition: width 0.3s;
+        }
+
+        nav span:hover::after {
+            width: 100%;
+        }
+
+        .header-actions {
+            display: flex;
+            gap: 20px;
+            align-items: center;
+        }
+
+        .btn {
+            padding: 8px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: 500;
+            transition: all 0.3s;
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #FF6B35 0%, #FF9558 100%);
+            color: white;
+            position: relative;
+            overflow: hidden;
+            z-index: 1;
+        }
+
+        .btn-primary::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(135deg, #E55A2B 0%, #FF6B35 100%);
+            opacity: 0;
+            transition: opacity 0.3s;
+            z-index: -1;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(255,107,53,0.3);
+        }
+
+        .btn-primary:hover::before {
+            opacity: 1;
+        }
+
+        .btn-outline {
+            background: transparent;
+            border: 2px solid transparent;
+            background-image: linear-gradient(white, white), linear-gradient(135deg, #FF6B35 0%, #FF9558 100%);
+            background-origin: border-box;
+            background-clip: padding-box, border-box;
+            position: relative;
+        }
+
+        .btn-outline span {
+            background: linear-gradient(135deg, #FF6B35 0%, #FF9558 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .btn-outline:hover {
+            background: linear-gradient(135deg, #FF6B35 0%, #FF9558 100%);
+            color: white;
+            border-color: transparent;
+        }
+
+        /* 히어로 섹션 */
+        .hero {
+            margin-top: 80px;
+            height: 600px;
+            background: linear-gradient(to bottom, #0099CC 0%, #87CEEB 50%, #98D98E 100%);
+            position: relative;
+            overflow: hidden;
+        }
+
+        /* 일러스트 배경 요소들 */
+        .illustration-bg {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            z-index: 1;
+        }
+
+        /* 산 레이어들 */
+        .mountain-layer {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            width: 100%;
+        }
+
+        .mountain-back {
+            height: 400px;
+            background: linear-gradient(135deg, #2E7D32 0%, #43A047 100%);
+            clip-path: polygon(0 40%, 15% 20%, 30% 35%, 45% 15%, 60% 30%, 75% 10%, 90% 25%, 100% 20%, 100% 100%, 0 100%);
+            z-index: 1;
+        }
+
+        .mountain-mid {
+            height: 350px;
+            background: linear-gradient(135deg, #4CAF50 0%, #66BB6A 100%);
+            clip-path: polygon(0 50%, 20% 30%, 35% 40%, 50% 25%, 70% 35%, 85% 20%, 100% 30%, 100% 100%, 0 100%);
+            z-index: 2;
+        }
+
+        .mountain-front {
+            height: 300px;
+            background: linear-gradient(135deg, #81C784 0%, #A5D6A7 100%);
+            clip-path: polygon(0 60%, 25% 40%, 40% 50%, 55% 35%, 75% 45%, 90% 30%, 100% 40%, 100% 100%, 0 100%);
+            z-index: 3;
+        }
+
+        /* 구름 */
+        .clouds {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 100%;
+            z-index: 2;
+        }
+
+        .cloud {
+            position: absolute;
+            background: rgba(255, 255, 255, 0.7);
+            border-radius: 100px;
+            opacity: 0.8;
+        }
+
+        .cloud::before,
+        .cloud::after {
+            content: '';
+            position: absolute;
+            background: rgba(255, 255, 255, 0.7);
+            border-radius: 100px;
+        }
+
+        .cloud1 {
+            width: 100px;
+            height: 40px;
+            top: 20%;
+            left: 20%;
+            animation: floatCloud 30s infinite;
+        }
+
+        .cloud1::before {
+            width: 50px;
+            height: 50px;
+            top: -25px;
+            left: 10px;
+        }
+
+        .cloud1::after {
+            width: 60px;
+            height: 40px;
+            top: -15px;
+            right: 10px;
+        }
+
+        .cloud2 {
+            width: 80px;
+            height: 35px;
+            top: 35%;
+            right: 30%;
+            animation: floatCloud 40s infinite reverse;
+        }
+
+        .cloud2::before {
+            width: 40px;
+            height: 40px;
+            top: -20px;
+            left: 15px;
+        }
+
+        .cloud2::after {
+            width: 50px;
+            height: 35px;
+            top: -10px;
+            right: 15px;
+        }
+
+        @keyframes floatCloud {
+            0%, 100% {
+                transform: translateX(0);
+            }
+            50% {
+                transform: translateX(30px);
+            }
+        }
+
+        /* 열대 식물 장식 */
+        .tropical-plants {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            z-index: 5;
+            pointer-events: none;
+        }
+
+        .plant-left {
+            position: absolute;
+            left: -50px;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 300px;
+            height: 400px;
+            background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 300 400"><path d="M50 200 Q100 150, 150 200 T250 200" fill="%2366BB6A" opacity="0.8"/><path d="M80 250 Q130 200, 180 250 T280 250" fill="%234CAF50" opacity="0.7"/><circle cx="100" cy="180" r="8" fill="%23D32F2F"/><circle cx="150" cy="160" r="8" fill="%23D32F2F"/><circle cx="200" cy="190" r="8" fill="%23D32F2F"/></svg>') no-repeat center;
+            background-size: contain;
+        }
+
+        .plant-right {
+            position: absolute;
+            right: -50px;
+            top: 40%;
+            transform: translateY(-50%) scaleX(-1);
+            width: 350px;
+            height: 450px;
+            background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 350 450"><path d="M50 225 Q125 150, 200 225 T350 225" fill="%2366BB6A" opacity="0.8"/><path d="M80 300 Q155 225, 230 300 T380 300" fill="%234CAF50" opacity="0.7"/><circle cx="120" cy="200" r="10" fill="%23D32F2F"/><circle cx="180" cy="180" r="10" fill="%23D32F2F"/><circle cx="240" cy="210" r="10" fill="%23D32F2F"/></svg>') no-repeat center;
+            background-size: contain;
+        }
+
+        /* 커피 체리 장식 */
+        .coffee-berries {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            z-index: 6;
+        }
+
+        .berry {
+            position: absolute;
+            width: 25px;
+            height: 25px;
+            background: radial-gradient(circle at 30% 30%, #F44336, #C62828);
+            border-radius: 50% 50% 50% 50% / 60% 60% 40% 40%;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+            animation: berryFloat 4s ease-in-out infinite;
+        }
+
+        .berry::after {
+            content: '';
+            position: absolute;
+            top: 3px;
+            left: 5px;
+            width: 5px;
+            height: 5px;
+            background: rgba(255,255,255,0.4);
+            border-radius: 50%;
+        }
+
+        .berry1 { top: 30%; left: 10%; animation-delay: 0s; }
+        .berry2 { top: 60%; left: 15%; animation-delay: 1s; }
+        .berry3 { top: 40%; right: 10%; animation-delay: 2s; }
+        .berry4 { top: 70%; right: 12%; animation-delay: 3s; }
+
+        @keyframes berryFloat {
+            0%, 100% {
+                transform: translateY(0) rotate(0deg);
+            }
+            50% {
+                transform: translateY(-10px) rotate(10deg);
+            }
+        }
+
+        /* 햇빛 효과 */
+        .sun-rays {
+            position: absolute;
+            top: -100px;
+            right: -100px;
+            width: 300px;
+            height: 300px;
+            background: radial-gradient(circle, rgba(255, 235, 59, 0.3) 0%, transparent 70%);
+            z-index: 0;
+            animation: sunPulse 8s ease-in-out infinite;
+        }
+
+        @keyframes sunPulse {
+            0%, 100% {
+                transform: scale(1);
+                opacity: 0.3;
+            }
+            50% {
+                transform: scale(1.1);
+                opacity: 0.5;
+            }
+        }
+
+        /* 새 효과 */
+        .birds {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 300px;
+            z-index: 4;
+        }
+
+        .bird {
+            position: absolute;
+            width: 30px;
+            height: 20px;
+            animation: flyBird 20s linear infinite;
+        }
+
+        .bird::before,
+        .bird::after {
+            content: '';
+            position: absolute;
+            border: 2px solid #333;
+            border-bottom: 0;
+            border-radius: 50% 50% 0 0;
+        }
+
+        .bird::before {
+            width: 15px;
+            height: 10px;
+            left: 0;
+            transform: rotate(-20deg);
+        }
+
+        .bird::after {
+            width: 15px;
+            height: 10px;
+            right: 0;
+            transform: rotate(20deg);
+        }
+
+        .bird1 { top: 15%; animation-duration: 25s; }
+        .bird2 { top: 25%; animation-duration: 30s; animation-delay: -10s; }
+
+        @keyframes flyBird {
+            0% {
+                transform: translateX(-50px);
+            }
+            100% {
+                transform: translateX(calc(100vw + 50px));
+            }
+        }
+
+        .hero-content {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 20px;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            position: relative;
+            z-index: 10;
+        }
+
+        .hero-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .hero-text {
+            flex: 1;
+            color: #1A1A1A;
+            animation: slideInLeft 1s ease-out;
+        }
+
+        .hero-text h1 {
+            font-size: 48px;
+            margin-bottom: 20px;
+            line-height: 1.2;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
+        }
+
+        .hero-text p {
+            font-size: 20px;
+            margin-bottom: 30px;
+            opacity: 0.85;
+            color: #2C2C2C;
+        }
+
+        .hero-image {
+            flex: 1;
+            text-align: center;
+            animation: slideInRight 1s ease-out;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .modern-platform {
+            position: relative;
+            width: 450px;
+            height: 450px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            animation: float 6s ease-in-out infinite;
+        }
+
+        /* 3D 글래스 큐브 중앙 */
+        .glass-cube {
+            position: absolute;
+            width: 150px;
+            height: 150px;
+            transform-style: preserve-3d;
+            animation: rotateCube 15s linear infinite;
+        }
+
+        @keyframes rotateCube {
+            0% {
+                transform: rotateX(-20deg) rotateY(0deg);
+            }
+            100% {
+                transform: rotateX(-20deg) rotateY(360deg);
+            }
+        }
+
+        .cube-face {
+            position: absolute;
+            width: 150px;
+            height: 150px;
+            background: rgba(255, 255, 255, 0.7);
+            backdrop-filter: blur(10px);
+            border: 2px solid rgba(255, 255, 255, 0.9);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 40px;
+            color: #333;
+            text-shadow: 0 0 20px rgba(255,107,53,0.5);
+        }
+
+        .cube-face:nth-child(1) { transform: translateZ(75px); }
+        .cube-face:nth-child(2) { transform: rotateY(90deg) translateZ(75px); }
+        .cube-face:nth-child(3) { transform: rotateY(180deg) translateZ(75px); }
+        .cube-face:nth-child(4) { transform: rotateY(-90deg) translateZ(75px); }
+        .cube-face:nth-child(5) { transform: rotateX(90deg) translateZ(75px); }
+        .cube-face:nth-child(6) { transform: rotateX(-90deg) translateZ(75px); }
+
+        /* 현대적인 궤도 시스템 */
+        .modern-orbit {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            transform-style: preserve-3d;
+        }
+
+        .orbit-track {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            transform: rotateX(70deg);
+        }
+
+        .orbit-track-1 {
+            width: 320px;
+            height: 320px;
+            left: 50%;
+            top: 50%;
+            margin-left: -160px;
+            margin-top: -160px;
+            border: 2px solid rgba(255,107,53,0.3);
+            box-shadow: 0 0 30px rgba(255,107,53,0.2), inset 0 0 30px rgba(255,107,53,0.1);
+        }
+
+        .orbit-track-2 {
+            width: 380px;
+            height: 380px;
+            left: 50%;
+            top: 50%;
+            margin-left: -190px;
+            margin-top: -190px;
+            border: 2px solid rgba(255,149,88,0.3);
+            box-shadow: 0 0 20px rgba(255,149,88,0.2);
+        }
+
+        .orbit-track-3 {
+            width: 440px;
+            height: 440px;
+            left: 50%;
+            top: 50%;
+            margin-left: -220px;
+            margin-top: -220px;
+            border: 2px solid rgba(255,149,88,0.2);
+            box-shadow: 0 0 15px rgba(255,149,88,0.1);
+        }
+
+        /* 현대적인 플로팅 요소들 */
+        .modern-device {
+            position: absolute;
+            background: rgba(255, 255, 255, 0.8);
+            backdrop-filter: blur(10px);
+            border: 2px solid rgba(255, 255, 255, 0.9);
+            border-radius: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 8px 32px rgba(0,0,0,0.1), 
+                        0 0 80px rgba(255,107,53,0.2),
+                        inset 0 0 20px rgba(255,255,255,0.8);
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .modern-device:hover {
+            transform: scale(1.1);
+            background: rgba(255, 255, 255, 0.95);
+            border: 2px solid rgba(255, 255, 255, 1);
+            box-shadow: 0 12px 40px rgba(0,0,0,0.15), 
+                        0 0 100px rgba(255,107,53,0.3),
+                        inset 0 0 30px rgba(255,255,255,0.9);
+        }
+
+        .device-icon {
+            width: 60px;
+            height: 60px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+        }
+
+        .device-icon::before {
+            content: '';
+            position: absolute;
+            width: 40px;
+            height: 40px;
+            background: linear-gradient(135deg, #FF6B35 0%, #FF9558 100%);
+            border-radius: 50%;
+            filter: blur(20px);
+            opacity: 0.5;
+        }
+
+        .device-icon span {
+            font-size: 28px;
+            z-index: 1;
+            filter: drop-shadow(0 0 10px rgba(255,255,255,0.5));
+        }
+
+        .modern-device-1 {
+            width: 80px;
+            height: 80px;
+            animation: modernOrbit1 20s linear infinite;
+        }
+
+        .modern-device-2 {
+            width: 75px;
+            height: 75px;
+            animation: modernOrbit2 25s linear infinite;
+        }
+
+        .modern-device-3 {
+            width: 85px;
+            height: 85px;
+            animation: modernOrbit3 30s linear infinite;
+        }
+
+        .modern-device-4 {
+            width: 70px;
+            height: 70px;
+            animation: modernOrbit4 22s linear infinite;
+        }
+
+        .modern-device-5 {
+            width: 80px;
+            height: 80px;
+            animation: modernOrbit5 28s linear infinite;
+        }
+
+        .modern-device-6 {
+            width: 75px;
+            height: 75px;
+            animation: modernOrbit6 24s linear infinite;
+        }
+
+        @keyframes modernOrbit1 {
+            0% {
+                transform: rotate(0deg) translateX(160px) translateZ(50px) rotateY(0deg);
+            }
+            100% {
+                transform: rotate(360deg) translateX(160px) translateZ(50px) rotateY(-360deg);
+            }
+        }
+
+        @keyframes modernOrbit2 {
+            0% {
+                transform: rotate(60deg) translateX(190px) translateZ(-30px) rotateY(-60deg);
+            }
+            100% {
+                transform: rotate(420deg) translateX(190px) translateZ(-30px) rotateY(-420deg);
+            }
+        }
+
+        @keyframes modernOrbit3 {
+            0% {
+                transform: rotate(120deg) translateX(220px) translateZ(20px) rotateY(-120deg);
+            }
+            100% {
+                transform: rotate(480deg) translateX(220px) translateZ(20px) rotateY(-480deg);
+            }
+        }
+
+        @keyframes modernOrbit4 {
+            0% {
+                transform: rotate(180deg) translateX(160px) translateZ(-40px) rotateY(-180deg);
+            }
+            100% {
+                transform: rotate(540deg) translateX(160px) translateZ(-40px) rotateY(-540deg);
+            }
+        }
+
+        @keyframes modernOrbit5 {
+            0% {
+                transform: rotate(240deg) translateX(190px) translateZ(60px) rotateY(-240deg);
+            }
+            100% {
+                transform: rotate(600deg) translateX(190px) translateZ(60px) rotateY(-600deg);
+            }
+        }
+
+        @keyframes modernOrbit6 {
+            0% {
+                transform: rotate(300deg) translateX(220px) translateZ(-20px) rotateY(-300deg);
+            }
+            100% {
+                transform: rotate(660deg) translateX(220px) translateZ(-20px) rotateY(-660deg);
+            }
+        }
+
+        /* 파티클 효과 */
+        .particles {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+        }
+
+        .particle {
+            position: absolute;
+            width: 4px;
+            height: 4px;
+            background: rgba(255, 107, 53, 0.8);
+            border-radius: 50%;
+            opacity: 0;
+            animation: particleFloat 10s linear infinite;
+            box-shadow: 0 0 8px rgba(255, 107, 53, 0.6);
+        }
+
+        @keyframes particleFloat {
+            0% {
+                opacity: 0;
+                transform: translateY(100px) scale(0);
+            }
+            10% {
+                opacity: 1;
+                transform: translateY(80px) scale(1);
+            }
+            90% {
+                opacity: 1;
+                transform: translateY(-80px) scale(1);
+            }
+            100% {
+                opacity: 0;
+                transform: translateY(-100px) scale(0);
+            }
+        }
+
+        .particle:nth-child(1) { left: 10%; animation-delay: 0s; }
+        .particle:nth-child(2) { left: 20%; animation-delay: 1s; }
+        .particle:nth-child(3) { left: 30%; animation-delay: 2s; }
+        .particle:nth-child(4) { left: 40%; animation-delay: 3s; }
+        .particle:nth-child(5) { left: 50%; animation-delay: 4s; }
+        .particle:nth-child(6) { left: 60%; animation-delay: 5s; }
+        .particle:nth-child(7) { left: 70%; animation-delay: 6s; }
+        .particle:nth-child(8) { left: 80%; animation-delay: 7s; }
+        .particle:nth-child(9) { left: 90%; animation-delay: 8s; }
+        .particle:nth-child(10) { left: 95%; animation-delay: 9s; }
+
+        /* 네온 글로우 효과 */
+        .neon-glow {
+            position: absolute;
+            width: 250px;
+            height: 250px;
+            background: radial-gradient(circle, rgba(255,107,53,0.3) 0%, transparent 70%);
+            filter: blur(50px);
+            animation: neonPulse 4s ease-in-out infinite;
+        }
+
+        @keyframes neonPulse {
+            0%, 100% {
+                transform: scale(1);
+                opacity: 0.4;
+            }
+            50% {
+                transform: scale(1.3);
+                opacity: 0.7;
+            }
+        }
+
+        /* 반응형 조정 */
+        @media (max-width: 768px) {
+            .modern-platform {
+                width: 350px;
+                height: 350px;
+            }
+
+            .glass-cube {
+                width: 100px;
+                height: 100px;
+            }
+
+            .cube-face {
+                width: 100px;
+                height: 100px;
+                font-size: 30px;
+            }
+
+            .cube-face:nth-child(1) { transform: translateZ(50px); }
+            .cube-face:nth-child(2) { transform: rotateY(90deg) translateZ(50px); }
+            .cube-face:nth-child(3) { transform: rotateY(180deg) translateZ(50px); }
+            .cube-face:nth-child(4) { transform: rotateY(-90deg) translateZ(50px); }
+            .cube-face:nth-child(5) { transform: rotateX(90deg) translateZ(50px); }
+            .cube-face:nth-child(6) { transform: rotateX(-90deg) translateZ(50px); }
+
+            .orbit-track-1 {
+                width: 250px;
+                height: 250px;
+                margin-left: -125px;
+                margin-top: -125px;
+            }
+
+            .orbit-track-2 {
+                width: 300px;
+                height: 300px;
+                margin-left: -150px;
+                margin-top: -150px;
+            }
+
+            .orbit-track-3 {
+                width: 340px;
+                height: 340px;
+                margin-left: -170px;
+                margin-top: -170px;
+            }
+
+            .modern-device {
+                width: 60px;
+                height: 60px;
+            }
+
+            .device-icon {
+                width: 50px;
+                height: 50px;
+            }
+
+            .device-icon span {
+                font-size: 24px;
+            }
+
+            @keyframes modernOrbit1 {
+                0% {
+                    transform: rotate(0deg) translateX(125px) translateZ(30px) rotateY(0deg);
+                }
+                100% {
+                    transform: rotate(360deg) translateX(125px) translateZ(30px) rotateY(-360deg);
+                }
+            }
+
+            @keyframes modernOrbit2 {
+                0% {
+                    transform: rotate(60deg) translateX(150px) translateZ(-20px) rotateY(-60deg);
+                }
+                100% {
+                    transform: rotate(420deg) translateX(150px) translateZ(-20px) rotateY(-420deg);
+                }
+            }
+
+            @keyframes modernOrbit3 {
+                0% {
+                    transform: rotate(120deg) translateX(170px) translateZ(15px) rotateY(-120deg);
+                }
+                100% {
+                    transform: rotate(480deg) translateX(170px) translateZ(15px) rotateY(-480deg);
+                }
+            }
+
+            @keyframes modernOrbit4 {
+                0% {
+                    transform: rotate(180deg) translateX(125px) translateZ(-25px) rotateY(-180deg);
+                }
+                100% {
+                    transform: rotate(540deg) translateX(125px) translateZ(-25px) rotateY(-540deg);
+                }
+            }
+
+            @keyframes modernOrbit5 {
+                0% {
+                    transform: rotate(240deg) translateX(150px) translateZ(40px) rotateY(-240deg);
+                }
+                100% {
+                    transform: rotate(600deg) translateX(150px) translateZ(40px) rotateY(-600deg);
+                }
+            }
+
+            @keyframes modernOrbit6 {
+                0% {
+                    transform: rotate(300deg) translateX(170px) translateZ(-15px) rotateY(-300deg);
+                }
+                100% {
+                    transform: rotate(660deg) translateX(170px) translateZ(-15px) rotateY(-660deg);
+                }
+            }
+        }
+
+        /* 애니메이션 */
+        @keyframes slideInLeft {
+            from {
+                opacity: 0;
+                transform: translateX(-50px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        @keyframes slideInRight {
+            from {
+                opacity: 0;
+                transform: translateX(50px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        @keyframes float {
+            0%, 100% {
+                transform: translateY(0);
+            }
+            50% {
+                transform: translateY(-20px);
+            }
+        }
+
+        /* 리워드 섹션 */
+        .rewards {
+            background: #D94E1F;
+            color: white;
+            padding: 40px 0;
+        }
+
+        .rewards-content {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 20px;
+            text-align: center;
+        }
+
+        .rewards-text {
+            text-align: center;
+        }
+
+        .rewards-text h2 {
+            font-size: 28px;
+            margin-bottom: 10px;
+        }
+
+        /* 제품 섹션 */
+        .products {
+            padding: 80px 0;
+            background: #f9f9f9;
+        }
+
+        .section-header {
+            text-align: center;
+            margin-bottom: 60px;
+        }
+
+        .section-header h2 {
+            font-size: 36px;
+            background: linear-gradient(135deg, #D94E1F 0%, #FF6B35 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 10px;
+        }
+
+        .section-header p {
+            font-size: 18px;
+            color: #666;
+        }
+
+        .product-grid {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 20px;
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 25px;
+        }
+
+        @media (max-width: 1399px) {
+            .product-grid {
+                grid-template-columns: repeat(3, 1fr);
+                gap: 20px;
+            }
+        }
+
+        @media (max-width: 900px) {
+            .product-grid {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 20px;
+            }
+        }
+
+        @media (max-width: 600px) {
+            .product-grid {
+                grid-template-columns: 1fr;
+                gap: 20px;
+            }
+        }
+
+        .product-card {
+            background: white;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .product-card::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 5px;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .product-card:nth-child(1)::after {
+            background: linear-gradient(90deg, #667eea 0%, #764ba2 100%);
+        }
+
+        .product-card:nth-child(2)::after {
+            background: linear-gradient(90deg, #f093fb 0%, #f5576c 100%);
+        }
+
+        .product-card:nth-child(3)::after {
+            background: linear-gradient(90deg, #4facfe 0%, #00f2fe 100%);
+        }
+
+        .product-card:nth-child(4)::after {
+            background: linear-gradient(90deg, #43e97b 0%, #38f9d7 100%);
+        }
+
+        .product-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+        }
+
+        .product-card:hover::after {
+            opacity: 1;
+        }
+
+        .product-image {
+            height: 220px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 80px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        @media (max-width: 1399px) {
+            .product-image {
+                height: 230px;
+                font-size: 90px;
+            }
+        }
+
+        @media (max-width: 900px) {
+            .product-image {
+                height: 240px;
+                font-size: 95px;
+            }
+        }
+
+        @media (max-width: 600px) {
+            .product-image {
+                height: 250px;
+                font-size: 100px;
+            }
+        }
+
+        .product-image::after {
+            content: '';
+            position: absolute;
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.1);
+            top: -75px;
+            right: -75px;
+            transition: all 0.5s ease;
+        }
+
+        .product-card:hover .product-image::after {
+            transform: scale(1.5);
+            background: rgba(255, 255, 255, 0.15);
+        }
+
+        /* 추가 장식 요소 */
+        .product-card:nth-child(1) .product-image {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            box-shadow: inset 0 0 50px rgba(0, 0, 0, 0.1);
+        }
+
+        .product-card:nth-child(2) .product-image {
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            box-shadow: inset 0 0 50px rgba(0, 0, 0, 0.1);
+        }
+
+        .product-card:nth-child(3) .product-image {
+            background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+            box-shadow: inset 0 0 50px rgba(0, 0, 0, 0.1);
+        }
+
+        .product-card:nth-child(4) .product-image {
+            background: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%);
+            box-shadow: inset 0 0 50px rgba(0, 0, 0, 0.1);
+        }
+
+        .product-image::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: linear-gradient(
+                45deg,
+                transparent 30%,
+                rgba(255, 255, 255, 0.1) 50%,
+                transparent 70%
+            );
+            transform: rotate(45deg);
+            transition: all 0.6s;
+        }
+
+        .product-card:hover .product-image::before {
+            animation: shine 0.6s ease-in-out;
+        }
+
+        @keyframes shine {
+            0% {
+                transform: rotate(45deg) translateX(-100%);
+            }
+            100% {
+                transform: rotate(45deg) translateX(100%);
+            }
+        }
+
+        .product-image span {
+            color: white;
+            font-size: 80px;
+            z-index: 1;
+            filter: drop-shadow(0 5px 10px rgba(0,0,0,0.3));
+            transition: transform 0.3s ease;
+        }
+
+        @media (max-width: 1399px) {
+            .product-image span {
+                font-size: 90px;
+            }
+        }
+
+        @media (max-width: 900px) {
+            .product-image span {
+                font-size: 95px;
+            }
+        }
+
+        @media (max-width: 600px) {
+            .product-image span {
+                font-size: 100px;
+            }
+        }
+
+        .product-card:hover .product-image span {
+            transform: scale(1.1);
+        }
+
+        .product-info {
+            padding: 18px;
+        }
+
+        .product-info h3 {
+            font-size: 18px;
+            margin-bottom: 8px;
+        }
+
+        .product-info p {
+            color: #666;
+            margin-bottom: 12px;
+            font-size: 14px;
+            line-height: 1.5;
+        }
+
+        .product-price {
+            font-size: 16px;
+            font-weight: 700;
+        }
+
+        @media (max-width: 1399px) {
+            .product-info {
+                padding: 20px;
+            }
+
+            .product-info h3 {
+                font-size: 19px;
+                margin-bottom: 10px;
+            }
+
+            .product-info p {
+                font-size: 15px;
+                margin-bottom: 15px;
+            }
+
+            .product-price {
+                font-size: 17px;
+            }
+        }
+
+        @media (max-width: 900px) {
+            .product-info h3 {
+                font-size: 20px;
+            }
+
+            .product-price {
+                font-size: 18px;
+            }
+        }
+
+        /* 각 서비스별 텍스트 컬러 */
+        .product-card:nth-child(1) .product-info h3 {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .product-card:nth-child(2) .product-info h3 {
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .product-card:nth-child(3) .product-info h3 {
+            background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .product-card:nth-child(4) .product-info h3 {
+            background: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .product-card:nth-child(1) .product-price {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .product-card:nth-child(2) .product-price {
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .product-card:nth-child(3) .product-price {
+            background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .product-card:nth-child(4) .product-price {
+            background: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        /* 프로모션 섹션 */
+        .promotion {
+            padding: 80px 0;
+            background: white;
+        }
+
+        .promotion-content {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 20px;
+            display: flex;
+            align-items: center;
+            gap: 60px;
+        }
+
+        .promotion-image {
+            flex: 1;
+            height: 400px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border-radius: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+        }
+
+        .promotion-image span {
+            font-size: 150px;
+        }
+
+        .promotion-text {
+            flex: 1;
+        }
+
+        .promotion-text h2 {
+            font-size: 36px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 20px;
+        }
+
+        .promotion-text p {
+            font-size: 18px;
+            color: #666;
+            margin-bottom: 30px;
+            line-height: 1.8;
+        }
+
+        /* 기프티콘 섹션 */
+        .gifticon-section {
+            padding: 100px 0;
+            background: linear-gradient(to bottom, #fff 0%, #FFF5F0 100%);
+            position: relative;
+            min-height: 800px;
+        }
+
+        .gifticon-section .section-header h2 {
+            font-size: 42px;
+            background: linear-gradient(135deg, #D94E1F 0%, #FF9558 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 15px;
+            text-shadow: none;
+        }
+
+        .gifticon-section .section-header p {
+            font-size: 20px;
+            color: #666;
+            margin-bottom: 40px;
+        }
+
+        .gifticon-section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: linear-gradient(90deg, #FF6B35 0%, #FF9558 50%, #FF6B35 100%);
+            background-size: 200% 100%;
+            animation: shimmer 3s linear infinite;
+        }
+
+        @keyframes shimmer {
+            0% {
+                background-position: -200% 0;
+            }
+            100% {
+                background-position: 200% 0;
+            }
+        }
+
+        /* 기프티콘 특별 이벤트 배너 */
+        .gifticon-banner {
+            background: linear-gradient(135deg, #FF6B35 0%, #FF9558 100%);
+            color: white;
+            padding: 15px 0;
+            text-align: center;
+            margin-bottom: 30px;
+            border-radius: 10px;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 5px 20px rgba(255,107,53,0.3);
+        }
+
+        .gifticon-banner::before {
+            content: '🎁 ';
+            position: absolute;
+            animation: slide 10s linear infinite;
+        }
+
+        @keyframes slide {
+            0% {
+                left: -50px;
+            }
+            100% {
+                left: 100%;
+            }
+        }
+
+        .gifticon-banner h3 {
+            font-size: 20px;
+            margin-bottom: 5px;
+        }
+
+        .gifticon-banner p {
+            font-size: 16px;
+            opacity: 0.9;
+        }
+
+        .gifticon-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        .gifticon-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 25px;
+            margin: 50px 0;
+            padding: 20px;
+        }
+
+        @media (max-width: 1399px) {
+            .gifticon-grid {
+                grid-template-columns: repeat(3, 1fr);
+                gap: 20px;
+            }
+        }
+
+        @media (max-width: 900px) {
+            .gifticon-grid {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 20px;
+            }
+        }
+
+        @media (max-width: 600px) {
+            .gifticon-grid {
+                grid-template-columns: 1fr;
+                gap: 20px;
+                padding: 10px;
+            }
+        }
+
+        .gifticon-item {
+            background: white;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+            transition: all 0.3s ease;
+            cursor: pointer;
+            border: 3px solid transparent;
+            opacity: 0;
+            animation: fadeInUp 0.6s ease-out forwards;
+            position: relative;
+        }
+
+        .gifticon-item::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(135deg, transparent 0%, rgba(255,255,255,0.1) 100%);
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            pointer-events: none;
+            z-index: 10;
+        }
+
+        .gifticon-item:hover::before {
+            opacity: 1;
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .gifticon-item:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 25px rgba(255,107,53,0.2);
+            background: linear-gradient(white, white) padding-box,
+                        linear-gradient(135deg, #FF6B35 0%, #FF9558 100%) border-box;
+            border: 3px solid transparent;
+        }
+
+        .gifticon-image {
+            position: relative;
+            height: 160px;
+            background: linear-gradient(135deg, #FFF5F0, #FFE5DB);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+        }
+
+        @media (max-width: 1399px) {
+            .gifticon-image {
+                height: 170px;
+            }
+        }
+
+        @media (max-width: 900px) {
+            .gifticon-image {
+                height: 180px;
+            }
+        }
+
+        .gifticon-icon {
+            font-size: 70px;
+            transition: transform 0.3s ease;
+        }
+
+        @media (max-width: 1399px) {
+            .gifticon-icon {
+                font-size: 75px;
+            }
+        }
+
+        @media (max-width: 900px) {
+            .gifticon-icon {
+                font-size: 80px;
+            }
+        }
+
+        .gifticon-item:hover .gifticon-icon {
+            transform: scale(1.1) rotate(5deg);
+        }
+
+        .discount-badge {
+            position: absolute;
+            top: 12px;
+            right: 12px;
+            background: linear-gradient(135deg, #FF6B35 0%, #FF9558 100%);
+            color: white;
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-weight: 700;
+            font-size: 14px;
+            box-shadow: 0 4px 15px rgba(255,107,53,0.4);
+            z-index: 5;
+            animation: pulse 2s infinite;
+        }
+
+        @media (max-width: 1399px) {
+            .discount-badge {
+                top: 15px;
+                right: 15px;
+                padding: 8px 15px;
+                font-size: 16px;
+                border-radius: 25px;
+            }
+        }
+
+        @keyframes pulse {
+            0% {
+                transform: scale(1);
+                box-shadow: 0 4px 15px rgba(255,107,53,0.4);
+            }
+            50% {
+                transform: scale(1.05);
+                box-shadow: 0 6px 20px rgba(255,107,53,0.6);
+            }
+            100% {
+                transform: scale(1);
+                box-shadow: 0 4px 15px rgba(255,107,53,0.4);
+            }
+        }
+
+        .gifticon-info {
+            padding: 18px;
+            text-align: center;
+        }
+
+        .gifticon-info h4 {
+            font-size: 15px;
+            margin-bottom: 8px;
+            color: #333;
+            font-weight: 600;
+        }
+
+        .original-price {
+            text-decoration: line-through;
+            color: #999;
+            font-size: 13px;
+            margin-bottom: 4px;
+        }
+
+        .discount-price {
+            font-size: 18px;
+            font-weight: 700;
+            background: linear-gradient(135deg, #FF6B35 0%, #FF9558 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        @media (max-width: 1399px) {
+            .gifticon-info {
+                padding: 20px;
+            }
+
+            .gifticon-info h4 {
+                font-size: 16px;
+                margin-bottom: 10px;
+            }
+
+            .original-price {
+                font-size: 14px;
+                margin-bottom: 5px;
+            }
+
+            .discount-price {
+                font-size: 20px;
+            }
+        }
+
+        .gifticon-cta {
+            text-align: center;
+            margin-top: 40px;
+        }
+
+        .gifticon-cta .btn {
+            font-size: 16px;
+            padding: 15px 40px;
+        }
+
+        /* Voucher Section */
+        .voucher-section {
+            margin-top: 80px;
+            text-align: center;
+        }
+
+        .voucher-section h3 {
+            font-size: 32px;
+            background: linear-gradient(135deg, #D94E1F 0%, #FF9558 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 10px;
+        }
+
+        .voucher-section p {
+            font-size: 18px;
+            color: #666;
+            margin-bottom: 40px;
+        }
+
+        .voucher-container {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .voucher-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 25px;
+            margin-top: 40px;
+            justify-content: center;
+        }
+
+        @media (max-width: 1399px) {
+            .voucher-grid {
+                grid-template-columns: repeat(3, 1fr);
+                gap: 20px;
+            }
+        }
+
+        @media (max-width: 900px) {
+            .voucher-grid {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 20px;
+            }
+        }
+
+        @media (max-width: 600px) {
+            .voucher-grid {
+                grid-template-columns: 1fr;
+                gap: 20px;
+            }
+        }
+
+        .voucher-card {
+            background: white;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+            transition: all 0.3s ease;
+        }
+
+        .voucher-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+        }
+
+        .voucher-image {
+            padding: 20px;
+            background: #f9f9f9;
+        }
+
+        .voucher-design {
+            position: relative;
+            height: 180px;
+            background: white;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+
+        @media (max-width: 1399px) {
+            .voucher-design {
+                height: 190px;
+            }
+        }
+
+        @media (max-width: 900px) {
+            .voucher-design {
+                height: 200px;
+            }
+        }
+
+        .voucher-pattern {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 60px;
+            background: linear-gradient(135deg, #FF6B35 0%, #FF9558 100%);
+            opacity: 0.9;
+        }
+
+        .voucher-pattern::before {
+            content: '';
+            position: absolute;
+            bottom: -20px;
+            left: 0;
+            right: 0;
+            height: 40px;
+            background: white;
+            border-radius: 50% 50% 0 0;
+        }
+
+        .voucher-content {
+            position: relative;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .voucher-logo {
+            font-size: 36px;
+            margin-bottom: 8px;
+        }
+
+        .voucher-brand {
+            font-size: 14px;
+            font-weight: 700;
+            color: #333;
+            margin-bottom: 12px;
+        }
+
+        .voucher-amount {
+            font-size: 24px;
+            font-weight: 700;
+            background: linear-gradient(135deg, #FF6B35 0%, #FF9558 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 12px;
+        }
+
+        .voucher-code {
+            font-size: 11px;
+            color: #999;
+            font-family: monospace;
+            letter-spacing: 1px;
+        }
+
+        @media (max-width: 1399px) {
+            .voucher-logo {
+                font-size: 38px;
+                margin-bottom: 10px;
+            }
+
+            .voucher-brand {
+                font-size: 15px;
+                margin-bottom: 15px;
+            }
+
+            .voucher-amount {
+                font-size: 26px;
+                margin-bottom: 15px;
+            }
+
+            .voucher-code {
+                font-size: 12px;
+            }
+        }
+
+        @media (max-width: 900px) {
+            .voucher-logo {
+                font-size: 40px;
+            }
+
+            .voucher-brand {
+                font-size: 16px;
+            }
+
+            .voucher-amount {
+                font-size: 28px;
+            }
+        }
+
+        .voucher-info {
+            padding: 18px;
+            text-align: center;
+        }
+
+        .voucher-info h4 {
+            font-size: 16px;
+            color: #333;
+            margin: 0 0 4px 0;
+        }
+
+        .voucher-value {
+            font-size: 13px;
+            color: #666;
+            margin: 0;
+        }
+
+        @media (max-width: 1399px) {
+            .voucher-info {
+                padding: 20px;
+            }
+
+            .voucher-info h4 {
+                font-size: 17px;
+                margin: 0 0 5px 0;
+            }
+
+            .voucher-value {
+                font-size: 14px;
+            }
+        }
+
+        @media (max-width: 900px) {
+            .voucher-info h4 {
+                font-size: 18px;
+            }
+        }
+
+        /* 푸터 */
+        footer {
+            background: #2c2a29;
+            color: #999;
+            padding: 60px 0 30px;
+        }
+
+        .footer-content {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        .footer-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 40px;
+            margin-bottom: 40px;
+        }
+
+        .footer-column h3 {
+            color: white;
+            margin-bottom: 20px;
+            font-size: 18px;
+        }
+
+        .footer-column ul {
+            list-style: none;
+        }
+
+        .footer-column span {
+            color: #999;
+            display: block;
+            padding: 5px 0;
+            transition: color 0.3s;
+            cursor: default;
+        }
+
+        .footer-column span:hover {
+            color: white;
+        }
+
+        .footer-bottom {
+            border-top: 1px solid #444;
+            padding-top: 30px;
+            text-align: center;
+        }
+
+        .social-links {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            margin-bottom: 20px;
+        }
+
+        .social-links span {
+            width: 40px;
+            height: 40px;
+            background: #444;
+            border-radius: 50%;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            transition: background 0.3s;
+            cursor: default;
+        }
+
+        .social-links span:hover {
+            background: linear-gradient(135deg, #FF6B35 0%, #FF9558 100%);
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(255,107,53,0.3);
+        }
+
+        /* 반응형 디자인 */
+        @media (max-width: 768px) {
+            nav ul {
+                display: none;
+            }
+
+            .hero-content {
+                flex-direction: column;
+                text-align: center;
+            }
+
+            .hero-text h1 {
+                font-size: 36px;
+            }
+
+            .promotion-content {
+                flex-direction: column;
+            }
+        }
+
+        /* 스크롤 애니메이션 */
+        .fade-in {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.6s ease-out;
+        }
+
+        .fade-in.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    </style>
+</head>
+<body>
+    <!-- 헤더 -->
+    <header>
+        <div class="header-inner">
+            <div class="logo">
+                <div class="logo-icon">🌍</div>
+                <span>GNP 멀티플렛폼</span>
+            </div>
+            <nav>
+                <ul>
+                    <li><span>SERVICES</span></li>
+                    <li><span>PROMOTION</span></li>
+                    <li><span>PARTNERS</span></li>
+                    <li><span>GIFTICON</span></li>
+                </ul>
+            </nav>
+            <div class="header-actions">
+                <span class="btn btn-outline"><span>Sign In</span></span>
+                <span class="btn btn-primary">Join Now</span>
+            </div>
+        </div>
+    </header>
+
+    <!-- 히어로 섹션 -->
+    <section class="hero">
+        <!-- 일러스트 배경 요소들 -->
+        <div class="illustration-bg">
+            <!-- 햇빛 효과 -->
+            <div class="sun-rays"></div>
+            
+            <!-- 구름 -->
+            <div class="clouds">
+                <div class="cloud cloud1"></div>
+                <div class="cloud cloud2"></div>
+            </div>
+            
+            <!-- 새들 -->
+            <div class="birds">
+                <div class="bird bird1"></div>
+                <div class="bird bird2"></div>
+            </div>
+            
+            <!-- 산 레이어 -->
+            <div class="mountain-layer mountain-back"></div>
+            <div class="mountain-layer mountain-mid"></div>
+            <div class="mountain-layer mountain-front"></div>
+            
+            <!-- 열대 식물 -->
+            <div class="tropical-plants">
+                <div class="plant-left"></div>
+                <div class="plant-right"></div>
+            </div>
+            
+            <!-- 커피 체리 장식 -->
+            <div class="coffee-berries">
+                <div class="berry berry1"></div>
+                <div class="berry berry2"></div>
+                <div class="berry berry3"></div>
+                <div class="berry berry4"></div>
+            </div>
+        </div>
+        
+        <div class="hero-content">
+            <div class="hero-text">
+                <h1>GNP 프리미엄 플랫폼</h1>
+                <p>최첨단 기술로 구현하는 안전한 멀티플렛폼 서비스</p>
+            </div>
+            <div class="hero-image">
+                <div class="modern-platform">
+                    <div class="particles">
+                        <div class="particle"></div>
+                        <div class="particle"></div>
+                        <div class="particle"></div>
+                        <div class="particle"></div>
+                        <div class="particle"></div>
+                        <div class="particle"></div>
+                        <div class="particle"></div>
+                        <div class="particle"></div>
+                        <div class="particle"></div>
+                        <div class="particle"></div>
+                    </div>
+                    <div class="neon-glow"></div>
+                    <div class="modern-orbit">
+                        <div class="orbit-track orbit-track-1"></div>
+                        <div class="orbit-track orbit-track-2"></div>
+                        <div class="orbit-track orbit-track-3"></div>
+                    </div>
+                    <div class="glass-cube">
+                        <div class="cube-face">🌐</div>
+                        <div class="cube-face">💎</div>
+                        <div class="cube-face">🚀</div>
+                        <div class="cube-face">⚡</div>
+                        <div class="cube-face">🔮</div>
+                        <div class="cube-face">✨</div>
+                    </div>
+                    <div class="modern-device modern-device-1">
+                        <div class="device-icon">
+                            <span>☕</span>
+                        </div>
+                    </div>
+                    <div class="modern-device modern-device-2">
+                        <div class="device-icon">
+                            <span>🍔</span>
+                        </div>
+                    </div>
+                    <div class="modern-device modern-device-3">
+                        <div class="device-icon">
+                            <span>🎁</span>
+                        </div>
+                    </div>
+                    <div class="modern-device modern-device-4">
+                        <div class="device-icon">
+                            <span>💳</span>
+                        </div>
+                    </div>
+                    <div class="modern-device modern-device-5">
+                        <div class="device-icon">
+                            <span>🎬</span>
+                        </div>
+                    </div>
+                    <div class="modern-device modern-device-6">
+                        <div class="device-icon">
+                            <span>🍕</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 파트너 섹션 -->
+    <section class="rewards" id="partners">
+        <div class="rewards-content">
+            <div class="rewards-text">
+                <h2>GNP PLATFORM BENEFITS</h2>
+                <p>파트너가 되어 특별한 혜택을 누려보세요</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- 서비스 섹션 -->
+    <section class="products" id="services">
+        <div class="section-header fade-in">
+            <h2>주요 서비스</h2>
+            <p>다양한 플랫폼을 통합하는 토탈 솔루션</p>
+        </div>
+        <div class="product-grid">
+            <div class="product-card fade-in">
+                <div class="product-image">
+                    <span>🤝</span>
+                </div>
+                <div class="product-info">
+                    <h3>GNP협동조합</h3>
+                    <p>함께 성장하는 협동조합 네트워크<br>상생과 협력의 비즈니스 생태계 구축</p>
+                    <div class="product-price">조합원 모집중</div>
+                </div>
+            </div>
+            <div class="product-card fade-in">
+                <div class="product-image">
+                    <span>🌐</span>
+                </div>
+                <div class="product-info">
+                    <h3>GNP 플랫폼</h3>
+                    <p>통합 디지털 플랫폼 서비스<br>혁신적인 멀티채널 비즈니스 솔루션</p>
+                    <div class="product-price">서비스 이용 문의</div>
+                </div>
+            </div>
+            <div class="product-card fade-in">
+                <div class="product-image">
+                    <span>🎁</span>
+                </div>
+                <div class="product-info">
+                    <h3>GNP 기프티콘몰</h3>
+                    <p>파트너사 제품 특별 할인<br>다양한 브랜드의 기프티콘 판매</p>
+                    <div class="product-price">회원 전용 혜택</div>
+                </div>
+            </div>
+            <div class="product-card fade-in">
+                <div class="product-image">
+                    <span>💳</span>
+                </div>
+                <div class="product-info">
+                    <h3>GNP 상품권몰</h3>
+                    <p>백화점, 온라인 상품권 전문<br>기업 복지 및 선물용 대량 구매 가능</p>
+                    <div class="product-price">B2B 특별가</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 프로모션 섹션 -->
+    <section class="promotion" id="coop-promotion">
+        <div class="promotion-content fade-in">
+            <div class="promotion-image">
+                <span>🤝</span>
+            </div>
+            <div class="promotion-text">
+                <h2>2025 협동조합 프로모션</h2>
+                <p>GNP협동조합과 함께 성장하세요!<br>
+                신규 조합원 가입시 혜택을 드립니다,<br>
+                기존 조합원 추천 시 추가 혜택을 드립니다.</p>
+                <span class="btn btn-primary">조합원 가입 상담</span>
+            </div>
+        </div>
+    </section>
+
+    <!-- 기프티콘 섹션 -->
+    <section class="gifticon-section" id="gifticon">
+        <div class="gifticon-container">
+            <div class="section-header fade-in">
+                <h2>GNP 기프티콘 스토어</h2>
+                <p>파트너사 제품을 특별한 가격으로 만나보세요</p>
+            </div>
+            <div class="gifticon-banner fade-in">
+                <h3>🎉 오늘만 특가! 전 상품 추가 10% 할인</h3>
+                <p>GNP 회원 전용 혜택 - 쿠폰코드: GNP2025</p>
+            </div>
+            <div class="gifticon-grid fade-in">
+                <div class="gifticon-item">
+                    <div class="gifticon-image">
+                        <span class="discount-badge">30%</span>
+                        <div class="gifticon-icon">☕</div>
+                    </div>
+                    <div class="gifticon-info">
+                        <h4>스타벅스 아메리카노</h4>
+                        <p class="original-price">5,500원</p>
+                        <p class="discount-price">3,850원</p>
+                    </div>
+                </div>
+                <div class="gifticon-item">
+                    <div class="gifticon-image">
+                        <span class="discount-badge">25%</span>
+                        <div class="gifticon-icon">🍔</div>
+                    </div>
+                    <div class="gifticon-info">
+                        <h4>버거킹 와퍼세트</h4>
+                        <p class="original-price">8,900원</p>
+                        <p class="discount-price">6,675원</p>
+                    </div>
+                </div>
+                <div class="gifticon-item">
+                    <div class="gifticon-image">
+                        <span class="discount-badge">40%</span>
+                        <div class="gifticon-icon">🍕</div>
+                    </div>
+                    <div class="gifticon-info">
+                        <h4>도미노피자 L사이즈</h4>
+                        <p class="original-price">25,000원</p>
+                        <p class="discount-price">15,000원</p>
+                    </div>
+                </div>
+                <div class="gifticon-item">
+                    <div class="gifticon-image">
+                        <span class="discount-badge">20%</span>
+                        <div class="gifticon-icon">🎬</div>
+                    </div>
+                    <div class="gifticon-info">
+                        <h4>CGV 영화관람권</h4>
+                        <p class="original-price">15,000원</p>
+                        <p class="discount-price">12,000원</p>
+                    </div>
+                </div>
+                <div class="gifticon-item">
+                    <div class="gifticon-image">
+                        <span class="discount-badge">35%</span>
+                        <div class="gifticon-icon">🍰</div>
+                    </div>
+                    <div class="gifticon-info">
+                        <h4>투썸플레이스 케이크</h4>
+                        <p class="original-price">7,000원</p>
+                        <p class="discount-price">4,550원</p>
+                    </div>
+                </div>
+                <div class="gifticon-item">
+                    <div class="gifticon-image">
+                        <span class="discount-badge">15%</span>
+                        <div class="gifticon-icon">🏪</div>
+                    </div>
+                    <div class="gifticon-info">
+                        <h4>GS25 모바일상품권</h4>
+                        <p class="original-price">10,000원</p>
+                        <p class="discount-price">8,500원</p>
+                    </div>
+                </div>
+                <div class="gifticon-item">
+                    <div class="gifticon-image">
+                        <span class="discount-badge">50%</span>
+                        <div class="gifticon-icon">🍗</div>
+                    </div>
+                    <div class="gifticon-info">
+                        <h4>교촌치킨 반반세트</h4>
+                        <p class="original-price">20,000원</p>
+                        <p class="discount-price">10,000원</p>
+                    </div>
+                </div>
+                <div class="gifticon-item">
+                    <div class="gifticon-image">
+                        <span class="discount-badge">30%</span>
+                        <div class="gifticon-icon">📚</div>
+                    </div>
+                    <div class="gifticon-info">
+                        <h4>교보문고 도서상품권</h4>
+                        <p class="original-price">30,000원</p>
+                        <p class="discount-price">21,000원</p>
+                    </div>
+                </div>
+                <div class="gifticon-item">
+                    <div class="gifticon-image">
+                        <span class="discount-badge">45%</span>
+                        <div class="gifticon-icon">🎮</div>
+                    </div>
+                    <div class="gifticon-info">
+                        <h4>넷플릭스 1개월 이용권</h4>
+                        <p class="original-price">17,000원</p>
+                        <p class="discount-price">9,350원</p>
+                    </div>
+                </div>
+                <div class="gifticon-item">
+                    <div class="gifticon-image">
+                        <span class="discount-badge">25%</span>
+                        <div class="gifticon-icon">⛽</div>
+                    </div>
+                    <div class="gifticon-info">
+                        <h4>GS칼텍스 주유상품권</h4>
+                        <p class="original-price">50,000원</p>
+                        <p class="discount-price">37,500원</p>
+                    </div>
+                </div>
+                <div class="gifticon-item">
+                    <div class="gifticon-image">
+                        <span class="discount-badge">60%</span>
+                        <div class="gifticon-icon">💄</div>
+                    </div>
+                    <div class="gifticon-info">
+                        <h4>올리브영 기프트카드</h4>
+                        <p class="original-price">20,000원</p>
+                        <p class="discount-price">8,000원</p>
+                    </div>
+                </div>
+                <div class="gifticon-item">
+                    <div class="gifticon-image">
+                        <span class="discount-badge">40%</span>
+                        <div class="gifticon-icon">🍺</div>
+                    </div>
+                    <div class="gifticon-info">
+                        <h4>스타벅스 시즌 음료</h4>
+                        <p class="original-price">6,500원</p>
+                        <p class="discount-price">3,900원</p>
+                    </div>
+                </div>
+            </div>
+            <div class="gifticon-cta fade-in">
+                <span class="btn btn-primary">더 많은 기프티콘 보기</span>
+            </div>
+            
+            <!-- Voucher Section -->
+            <div class="voucher-section fade-in">
+                <h3>프리미엄 상품권</h3>
+                <p>백화점, 호텔, 온라인 쇼핑몰 상품권을 특별한 가격으로</p>
+                <div class="voucher-grid">
+                    <div class="voucher-card">
+                        <div class="voucher-image">
+                            <div class="voucher-design">
+                                <div class="voucher-pattern"></div>
+                                <div class="voucher-content">
+                                    <div class="voucher-logo">🏬</div>
+                                    <div class="voucher-brand">신세계백화점</div>
+                                    <div class="voucher-amount">₩100,000</div>
+                                    <div class="voucher-code">GIFT-2025-SSC</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="voucher-info">
+                            <h4>신세계백화점 상품권</h4>
+                            <p class="voucher-value">100,000원권</p>
+                        </div>
+                    </div>
+                    <div class="voucher-card">
+                        <div class="voucher-image">
+                            <div class="voucher-design">
+                                <div class="voucher-pattern"></div>
+                                <div class="voucher-content">
+                                    <div class="voucher-logo">🏪</div>
+                                    <div class="voucher-brand">롯데백화점</div>
+                                    <div class="voucher-amount">₩50,000</div>
+                                    <div class="voucher-code">GIFT-2025-LTD</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="voucher-info">
+                            <h4>롯데백화점 상품권</h4>
+                            <p class="voucher-value">50,000원권</p>
+                        </div>
+                    </div>
+                    <div class="voucher-card">
+                        <div class="voucher-image">
+                            <div class="voucher-design">
+                                <div class="voucher-pattern"></div>
+                                <div class="voucher-content">
+                                    <div class="voucher-logo">🏛️</div>
+                                    <div class="voucher-brand">AK플라자</div>
+                                    <div class="voucher-amount">₩50,000</div>
+                                    <div class="voucher-code">GIFT-2025-AKP</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="voucher-info">
+                            <h4>AK플라자 상품권</h4>
+                            <p class="voucher-value">50,000원권</p>
+                        </div>
+                    </div>
+                    <div class="voucher-card">
+                        <div class="voucher-image">
+                            <div class="voucher-design">
+                                <div class="voucher-pattern"></div>
+                                <div class="voucher-content">
+                                    <div class="voucher-logo">🛒</div>
+                                    <div class="voucher-brand">SSG.COM</div>
+                                    <div class="voucher-amount">₩30,000</div>
+                                    <div class="voucher-code">GIFT-2025-SSG</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="voucher-info">
+                            <h4>SSG.COM 상품권</h4>
+                            <p class="voucher-value">30,000원권</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 푸터 -->
+    <footer>
+        <div class="footer-content">
+            <div class="footer-grid">
+                <div class="footer-column">
+                    <h3>COMPANY</h3>
+                    <ul>
+                        <li><span>회사소개</span></li>
+                        <li><span>경영철학</span></li>
+                        <li><span>인재채용</span></li>
+                        <li><span>파트너십</span></li>
+                    </ul>
+                </div>
+                <div class="footer-column">
+                    <h3>SERVICES</h3>
+                    <ul>
+                        <li><span>웹 개발</span></li>
+                        <li><span>앱 개발</span></li>
+                        <li><span>시스템 통합</span></li>
+                        <li><span>컨설팅</span></li>
+                    </ul>
+                </div>
+                <div class="footer-column">
+                    <h3>SOLUTIONS</h3>
+                    <ul>
+                        <li><span>E-커머스</span></li>
+                        <li><span>ERP 시스템</span></li>
+                        <li><span>CRM 솔루션</span></li>
+                        <li><span>빅데이터</span></li>
+                    </ul>
+                </div>
+                <div class="footer-column">
+                    <h3>GIFTICON</h3>
+                    <ul>
+                        <li><span>인기 기프티콘</span></li>
+                        <li><span>브랜드별</span></li>
+                        <li><span>카테고리별</span></li>
+                        <li><span>할인율순</span></li>
+                    </ul>
+                </div>
+                <div class="footer-column">
+                    <h3>SUPPORT</h3>
+                    <ul>
+                        <li><span>기술지원</span></li>
+                        <li><span>자주하는 질문</span></li>
+                        <li><span>다운로드</span></li>
+                        <li><span>문의하기</span></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <div class="social-links">
+                    <span>f</span>
+                    <span>t</span>
+                    <span>i</span>
+                    <span>y</span>
+                </div>
+                <p>&copy; 2025 GNP Multiplatform. All Rights Reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // 스크롤 애니메이션
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -100px 0px'
+        };
+
+        const observer = new IntersectionObserver(function(entries) {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('active');
+                }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('.fade-in').forEach(el => {
+            observer.observe(el);
+        });
+
+        // 기프티콘 애니메이션 지연 효과
+        document.querySelectorAll('.gifticon-item').forEach((item, index) => {
+            item.style.animationDelay = `${index * 0.1}s`;
+        });
+
+        // 헤더 스크롤 효과
+        let lastScroll = 0;
+        window.addEventListener('scroll', () => {
+            const currentScroll = window.pageYOffset;
+            const header = document.querySelector('header');
+            
+            if (currentScroll > 100) {
+                header.style.background = 'rgba(255, 255, 255, 0.95)';
+                header.style.backdropFilter = 'blur(10px)';
+                header.style.boxShadow = '0 2px 20px rgba(0,0,0,0.1)';
+            } else {
+                header.style.background = '#FFF5F0';
+                header.style.backdropFilter = 'none';
+                header.style.boxShadow = '0 2px 5px rgba(0,0,0,0.1)';
+            }
+            
+            lastScroll = currentScroll;
+        });
+
+        // 마우스 추적 효과
+        document.addEventListener('mousemove', (e) => {
+            const modernPlatform = document.querySelector('.modern-platform');
+            if (!modernPlatform) return;
+            
+            const rect = modernPlatform.getBoundingClientRect();
+            const centerX = rect.left + rect.width / 2;
+            const centerY = rect.top + rect.height / 2;
+            
+            const angleX = (e.clientY - centerY) * 0.01;
+            const angleY = (e.clientX - centerX) * 0.01;
+            
+            modernPlatform.style.transform = `
+                perspective(1000px)
+                rotateX(${-angleX}deg)
+                rotateY(${angleY}deg)
+            `;
+        });
+
+        // 디바이스 호버 효과
+        document.querySelectorAll('.modern-device').forEach((device, index) => {
+            device.addEventListener('mouseenter', function() {
+                const icon = this.querySelector('.device-icon span');
+                icon.style.transform = 'scale(1.2) rotate(10deg)';
+            });
+            
+            device.addEventListener('mouseleave', function() {
+                const icon = this.querySelector('.device-icon span');
+                icon.style.transform = 'scale(1) rotate(0deg)';
+            });
+        });
+
+        // 파티클 생성
+        function createParticles() {
+            const particleContainer = document.querySelector('.particles');
+            if (!particleContainer) return;
+            
+            const particleCount = particleContainer.children.length;
+            for (let i = 0; i < particleCount; i++) {
+                const particle = particleContainer.children[i];
+                particle.style.left = `${Math.random() * 100}%`;
+                particle.style.animationDelay = `${Math.random() * 10}s`;
+                particle.style.animationDuration = `${10 + Math.random() * 10}s`;
+            }
+        }
+
+        createParticles();
+
+        // 기프티콘 클릭 이벤트
+        document.querySelectorAll('.gifticon-item').forEach(item => {
+            item.addEventListener('click', function() {
+                const productName = this.querySelector('h4').textContent;
+                alert(`${productName} 기프티콘이 선택되었습니다!`);
+            });
+        });
+    </script>
+</body>
+</html>
