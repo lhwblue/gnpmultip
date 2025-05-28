@@ -1,4 +1,16 @@
-<!DOCTYPE html>
+</script>
+</body>
+</html>        /* 스크롤 애니메이션 */
+        .fade-in {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.6s ease-out;
+        }
+
+        .fade-in.active {
+            opacity: 1;
+            transform: translateY(0);
+        }<!DOCTYPE html>
 <html lang="ko">
 <head>
     <meta charset="UTF-8">
@@ -2418,16 +2430,170 @@
             }
         }
 
-        /* 스크롤 애니메이션 */
-        .fade-in {
-            opacity: 0;
-            transform: translateY(30px);
-            transition: all 0.6s ease-out;
+        /* 미니골드 섹션 스타일 */
+        .minigold-section {
+            padding: 100px 0;
+            background: linear-gradient(to bottom, #FFF5F0 0%, #FFF9E6 100%);
+            position: relative;
         }
-
-        .fade-in.active {
-            opacity: 1;
-            transform: translateY(0);
+        
+        .minigold-section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: linear-gradient(90deg, #B8860B 0%, #FFD700 50%, #B8860B 100%);
+            background-size: 200% 100%;
+            animation: shimmer 3s linear infinite;
+        }
+        
+        .minigold-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 25px;
+            margin: 50px 0;
+            padding: 20px;
+        }
+        
+        .minigold-card {
+            background: white;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+            transition: all 0.3s ease;
+            animation: fadeInUp 0.6s ease-out forwards;
+            animation-delay: calc(var(--card-index, 0) * 0.1s);
+            opacity: 0;
+        }
+        
+        .minigold-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(184, 134, 11, 0.3);
+        }
+        
+        .minigold-image {
+            padding: 20px;
+            background: #f9f9f9;
+            background-image: radial-gradient(ellipse at center, rgba(255, 215, 0, 0.1) 0%, rgba(255, 215, 0, 0) 70%);
+        }
+        
+        .minigold-design {
+            position: relative;
+            height: 200px;
+            background: white;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            background-image: linear-gradient(45deg, rgba(255, 215, 0, 0.05) 25%, transparent 25%, transparent 50%, rgba(255, 215, 0, 0.05) 50%, rgba(255, 215, 0, 0.05) 75%, transparent 75%, transparent);
+            background-size: 10px 10px;
+        }
+        
+        .minigold-pattern {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 60px;
+            background: linear-gradient(135deg, #B8860B 0%, #FFD700 100%);
+            opacity: 0.9;
+        }
+        
+        .minigold-pattern::before {
+            content: '';
+            position: absolute;
+            bottom: -20px;
+            left: 0;
+            right: 0;
+            height: 40px;
+            background: white;
+            border-radius: 50% 50% 0 0;
+        }
+        
+        .minigold-content {
+            position: relative;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+        
+        .minigold-logo {
+            font-size: 40px;
+            margin-bottom: 10px;
+            text-shadow: 0 2px 10px rgba(184, 134, 11, 0.4);
+            animation: goldPulse 2s infinite alternate;
+        }
+        
+        @keyframes goldPulse {
+            from { transform: scale(1); text-shadow: 0 2px 10px rgba(184, 134, 11, 0.4); }
+            to { transform: scale(1.05); text-shadow: 0 2px 20px rgba(255, 215, 0, 0.7); }
+        }
+        
+        .minigold-brand {
+            font-size: 16px;
+            font-weight: 700;
+            color: #333;
+            margin-bottom: 15px;
+            letter-spacing: 1px;
+        }
+        
+        .minigold-amount {
+            font-size: 28px;
+            font-weight: 700;
+            background: linear-gradient(135deg, #B8860B 0%, #FFD700 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 12px;
+            filter: drop-shadow(0 2px 2px rgba(0,0,0,0.1));
+        }
+        
+        .minigold-code {
+            font-size: 12px;
+            color: #999;
+            font-family: monospace;
+            letter-spacing: 1px;
+            background: #f9f9f9;
+            padding: 5px 10px;
+            border-radius: 20px;
+            border: 1px dashed #ccc;
+        }
+        
+        .minigold-info {
+            padding: 20px;
+            text-align: center;
+            border-top: 1px solid #f0f0f0;
+        }
+        
+        .minigold-info h4 {
+            font-size: 17px;
+            color: #333;
+            margin: 0 0 5px 0;
+        }
+        
+        .minigold-value {
+            font-size: 15px;
+            font-weight: 600;
+            color: #B8860B;
+            margin: 0;
+        }
+        
+        @media (max-width: 1399px) {
+            .minigold-grid {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 20px;
+            }
+        }
+        
+        @media (max-width: 767px) {
+            .minigold-grid {
+                grid-template-columns: 1fr;
+                gap: 20px;
+            }
         }
     </style>
 </head>
@@ -2875,6 +3041,95 @@
             </div>
         </div>
     </section>
+    
+    <!-- 미니골드 상품권 섹션 -->
+    <section class="minigold-section" id="minigold">
+        <div class="gifticon-container">
+            <div class="section-header fade-in">
+                <h2>GNP 미니골드 상품권</h2>
+                <p>실물 금으로 교환 가능한 프리미엄 상품권</p>
+            </div>
+            <div class="gifticon-banner fade-in" style="background: linear-gradient(135deg, #B8860B 0%, #FFD700 100%);">
+                <h3>✨ 투자와 선물의 가치를 함께 - 미니골드 상품권 ✨</h3>
+                <p>1g부터 시작하는 안전한 실물 금 투자 - 실시간 시세 적용</p>
+            </div>
+            
+            <div class="minigold-grid fade-in">
+                <div class="minigold-card">
+                    <div class="minigold-image">
+                        <div class="minigold-design">
+                            <div class="minigold-pattern"></div>
+                            <div class="minigold-content">
+                                <div class="minigold-logo">💰</div>
+                                <div class="minigold-brand">GNP GOLD</div>
+                                <div class="minigold-amount">₩100,000</div>
+                                <div class="minigold-code">GOLD-100K-2025</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="minigold-info">
+                        <h4>미니골드 상품권</h4>
+                        <p class="minigold-value">100,000원권</p>
+                    </div>
+                </div>
+                <div class="minigold-card">
+                    <div class="minigold-image">
+                        <div class="minigold-design">
+                            <div class="minigold-pattern"></div>
+                            <div class="minigold-content">
+                                <div class="minigold-logo">💰</div>
+                                <div class="minigold-brand">GNP GOLD</div>
+                                <div class="minigold-amount">₩200,000</div>
+                                <div class="minigold-code">GOLD-200K-2025</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="minigold-info">
+                        <h4>미니골드 상품권</h4>
+                        <p class="minigold-value">200,000원권</p>
+                    </div>
+                </div>
+                <div class="minigold-card">
+                    <div class="minigold-image">
+                        <div class="minigold-design">
+                            <div class="minigold-pattern"></div>
+                            <div class="minigold-content">
+                                <div class="minigold-logo">💰</div>
+                                <div class="minigold-brand">GNP GOLD</div>
+                                <div class="minigold-amount">₩300,000</div>
+                                <div class="minigold-code">GOLD-300K-2025</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="minigold-info">
+                        <h4>미니골드 상품권</h4>
+                        <p class="minigold-value">300,000원권</p>
+                    </div>
+                </div>
+                <div class="minigold-card">
+                    <div class="minigold-image">
+                        <div class="minigold-design">
+                            <div class="minigold-pattern"></div>
+                            <div class="minigold-content">
+                                <div class="minigold-logo">💰</div>
+                                <div class="minigold-brand">GNP GOLD</div>
+                                <div class="minigold-amount">₩500,000</div>
+                                <div class="minigold-code">GOLD-500K-2025</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="minigold-info">
+                        <h4>미니골드 상품권</h4>
+                        <p class="minigold-value">500,000원권</p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="gifticon-cta fade-in">
+                <span class="btn btn-gold">미니골드 상품권 구매하기</span>
+            </div>
+        </div>
+    </section>
 
     <!-- 푸터 -->
     <footer>
@@ -3036,6 +3291,20 @@
                 alert(`${productName} 기프티콘이 선택되었습니다!`);
             });
         });
-    </script>
-</body>
-</html>
+        // 미니골드 카드에 애니메이션 지연 효과 적용
+        document.querySelectorAll('.minigold-card').forEach((card, index) => {
+            card.style.setProperty('--card-index', index);
+        });
+        
+        // 미니골드 카드 호버 효과
+        document.querySelectorAll('.minigold-card').forEach(card => {
+            card.addEventListener('mouseenter', function() {
+                this.querySelector('.minigold-amount').style.filter = 'drop-shadow(0 4px 6px rgba(184, 134, 11, 0.4))';
+                this.querySelector('.minigold-logo').style.textShadow = '0 0 20px rgba(255, 215, 0, 0.8)';
+            });
+            
+            card.addEventListener('mouseleave', function() {
+                this.querySelector('.minigold-amount').style.filter = 'drop-shadow(0 2px 2px rgba(0,0,0,0.1))';
+                this.querySelector('.minigold-logo').style.textShadow = '0 2px 10px rgba(184, 134, 11, 0.4)';
+            });
+        });
